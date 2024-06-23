@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React from "react";
+import { resetCache } from "../actions";
 
 function setAuth(value: string) {
   document.cookie = `__session=${value}; path=/`;
@@ -22,8 +23,7 @@ export default function LoginPage() {
   const router = useRouter();
   const handleLogin = () => {
     setAuth("mocked-session-token");
-    router.refresh();
-    router.back();
+    resetCache().then(router.back);
   };
   const isAuthPresent = document.cookie.includes("__session=");
   return (
